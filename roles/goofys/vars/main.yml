@@ -1,0 +1,6 @@
+mount_points:
+    - workdir: /etc/aa
+      bucket_name: <bucket-name>
+    
+    - workdir: /etc/ss
+      bucket_name: <bucket-name>

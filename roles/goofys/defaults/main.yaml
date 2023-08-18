@@ -1,0 +1,5 @@
+path_src: '{{ playbook_dir }}/roles/goofys/files/'
+path_dest: /opt/
+
+bucket_endpoint: https://storage.googleapis.com
+goofys_filename: goofys

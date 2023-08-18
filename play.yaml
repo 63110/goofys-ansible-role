@@ -1,0 +1,6 @@
+- name: Install goofys
+  hosts: test1
+  gather_facts: false
+  roles:
+    - goofys
+  become: true

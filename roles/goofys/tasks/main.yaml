@@ -1,0 +1,13 @@
+---
+- name: Install goofys
+  import_tasks: setup.yaml
+  tags:
+  - create_config
+  - create_directories
+  - download_goofys
+
+- name: Mount bucket
+  import_tasks: mount.yaml
+  tags:
+  - mount_point
+  - check_mount

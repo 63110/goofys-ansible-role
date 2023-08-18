@@ -1,0 +1,47 @@
+---
+- name: Create a directory for credential
+  ansible.builtin.file:
+    path: ~/.aws
+    state: directory
+    mode: '0600'
+  tags: create_config
+
+- name: Create a directories for mount
+  ansible.builtin.file:
+    path: '{{ item.workdir }}'
+    state: directory
+    mode: '0755'
+  loop: '{{ mount_points }}'
+  tags: create_directories
+
+- name: Create credential config
+  template:
+    src: credentials.j2
+    dest: ~/.aws/credentials
+    owner: root
+    group: root
+    mode: 0600
+  become: true
+  tags: create_config
+
+- name: copy file goofys binary
+  copy:
+    src: '{{ path_src }}'
+    dest: '{{ path_dest }}'
+  become: true
+  tags: download_goofys
+
+- name: Configure goofys 
+  shell: |
+          cd '{{ path_dest }}'
+          mv '{{ goofys_filename }}' /usr/bin/'{{ goofys_filename }}'
+          chmod a+x /usr/bin/'{{ goofys_filename }}'
+          '{{ goofys_filename }}' --version
+  become: true
+  tags: download_goofys
+
+
+
+
+
+

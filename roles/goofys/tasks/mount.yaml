@@ -1,0 +1,20 @@
+---
+- name: mount folders to bucket
+  lineinfile:
+    path: /etc/fstab
+    line: "goofys#{{ item.bucket_name }} {{ item.workdir }}  fuse  _netdev,allow_other,--file-mode=0666,--dir-mode=0777,--endpoint {{ bucket_endpoint }}  0  0"
+  loop: '{{ mount_points }}'
+  notify: Reload fstab
+  tags: mount_point
+  become: true
+
+- meta: flush_handlers 
+
+- name: Check if disk is mounted {{ mount_points }}
+  shell: "mount | grep '{{ item.bucket_name }}'"
+  register: mount_output
+  failed_when: mount_output.rc !=0
+  changed_when: False
+  loop: '{{ mount_points }}'
+  tags: check_mount
+  become: true

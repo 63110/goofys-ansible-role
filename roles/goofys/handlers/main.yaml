@@ -1,0 +1,7 @@
+---
+- name: Reload fstab
+  shell: mount -a
+  become: true
+  run_once: true
+  register: mount_output
+  failed_when: mount_output.stderr != ""
